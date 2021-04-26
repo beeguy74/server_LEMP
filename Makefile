@@ -6,7 +6,7 @@
 #    By: tphung <tphung@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/25 14:14:43 by tphung            #+#    #+#              #
-#    Updated: 2021/04/25 14:41:17 by tphung           ###   ########.fr        #
+#    Updated: 2021/04/26 14:36:13 by tphung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,4 +16,4 @@ build:
 	docker build -t lemp_image:latest .
 
 run:
-	docker run --name 42container -it --rm lemp_image:latest
+	docker run -it --name 42container -p 80:80 --rm lemp_image:latest
