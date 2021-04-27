@@ -3,14 +3,16 @@ FROM debian:buster
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     wget \
     nginx \
-    php php-mysql php-mbstring php-fpm\
+    php-fpm php-mysql\
     mariadb-server\
     openssl
 
-RUN wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
+RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-english.tar.gz && \
+    wget https://wordpress.org/latest.tar.gz
 
-COPY srcs/start.sh ./
+COPY ./srcs ./
 
 CMD bash start.sh
+
 
 EXPOSE 80 443
