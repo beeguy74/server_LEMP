@@ -15,7 +15,6 @@ openssl req -x509 -days 365 -nodes \
 -out /etc/ssl/nginx.crt \
 -subj "/C=RU/ST=Moscow/L=Moscow/O=21/OU=swquinc/CN=tphung"
 
-# cp -r /tmp/* /var/lib/mysql/. 
 chmod +x /db_backup.sh
 chmod +x /db_restore.sh
 chown -R mysql:mysql /var/lib/mysql

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-tar cvfz /tmp/mysql_backup.tar.gz /var/lib/mysql/
+tar cvfz /mysql_tmp/mysql_backup.tar.gz /var/lib/mysql/

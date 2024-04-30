@@ -18,10 +18,10 @@ build:
 
 run:
 	docker run --name 42container \
-	-v $(shell pwd)/mysql:/tmp \
 	-v mysql-data:/var/lib/mysql \
-	-it -p 3000:80 -p 3001:443 --rm lemp_image:latest
-	# -it -p 80:80 -p 443:443 --rm lemp_image:latest
+	-v $(shell pwd)/mysql:/mysql_tmp \
+	-it -p 80:80 -p 443:443 --rm lemp_image:latest
+	# -it -p 3000:80 -p 3001:443 --rm lemp_image:latest # for school
 
 stop:
 	docker rm -f 42container
