@@ -9,7 +9,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     vim
 
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-english.tar.gz && \
-    wget https://wordpress.org/latest.tar.gz
+    wget https://wordpress.org/latest.tar.gz && \
+    wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 COPY ./srcs ./
 

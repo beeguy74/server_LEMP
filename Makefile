@@ -17,7 +17,7 @@ build:
 	docker build -t lemp_image:latest .
 
 run:
-	docker run --name 42container \
+	docker run --name 42container --env-file=$(shell pwd)/.env \
 	-v mysql-data:/var/lib/mysql \
 	-v $(shell pwd)/mysql:/mysql_tmp \
 	-it -p 80:80 -p 443:443 --rm lemp_image:latest
