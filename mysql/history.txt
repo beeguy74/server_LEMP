@@ -1,0 +1,20 @@
+php wp-cli.phar --info
+chmod +x wp-cli.phar
+sudo mv wp-cli.phar /usr/local/bin/wp
+mv wp-cli.phar /usr/local/bin/wp
+
+wp core download --allow-root  --path=/var/www/html/wordpress/
+
+wp core install --url=example.com --title=Example --admin_user=supervisor --admin_password=strongpassword --admin_email=info@example.com --path=/var/www/html/wordpress/ --allow-root/
+
+cp /var/www/html/wordps/wp-config.php /var/www/html/wordpress/.
+
+wp theme install astra --version=4.6.1 --allow-root --path=/var/www/html/wordpress
+
+wp plugin install /mysql_tmp/astra-addon.zip --allow-root --path=/var/www/html/wordpress
+
+
+wp plugin install elementor --allow-root --path=/var/www/html/wordpress
+
+wp plugin install /mysql_tmp/elementor-PRO-3.12.3.zip --allow-root --path=/var/www/html/wordpress
+history -w ./history.txt

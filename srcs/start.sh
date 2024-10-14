@@ -47,25 +47,46 @@ chmod +x /db_restore.sh
 chown -R mysql:mysql /var/lib/mysql
 service mysql start
 # i want to take user name and password from the .env for creating database
-echo "CREATE DATABASE IF NOT EXISTS wordpress;" | mysql -u root --skip-password
-echo "UPDATE mysql.user SET PASSWORD=PASSWORD('$DB_PASSWORD') WHERE USER='root';" | mysql -u root --skip-password
-echo "update mysql.user set plugin = 'mysql_native_password' where user='root';" | mysql -u root --skip-password
-echo "FLUSH PRIVILEGES;" | mysql -u root -p$DB_PASSWORD
+RESULT=$(mysql -u"$DB_USER" -p"$DB_PASSWORD" -e "SHOW DATABASES LIKE '$DB_NAME';" -s --skip-column-names)
 
-# privilages for the database using password
-echo "CREATE DATABASE IF NOT EXISTS wordpress;" | mysql -u root -p$DB_PASSWORD
-echo "GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost';" | mysql -u root -p$DB_PASSWORD
-echo "FLUSH PRIVILEGES;" | mysql -u root -p$DB_PASSWORD
+if [ "$RESULT" == "$DB_NAME" ]; then
+    echo "База данных $DB_NAME найдена."
+else
+    echo "CREATE DATABASE IF NOT EXISTS wordpress;" | mysql -u root --skip-password
+    echo "UPDATE mysql.user SET PASSWORD=PASSWORD('$DB_PASSWORD') WHERE USER='root';" | mysql -u root --skip-password
+    echo "update mysql.user set plugin = 'mysql_native_password' where user='root';" | mysql -u root --skip-password
+    echo "FLUSH PRIVILEGES;" | mysql -u root -p$DB_PASSWORD
+
+    # privilages for the database using password
+    echo "GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost';" | mysql -u root -p$DB_PASSWORD
+    echo "FLUSH PRIVILEGES;" | mysql -u root -p$DB_PASSWORD
+
+fi
 
 mkdir /var/www/html/phpmyadmin 
 tar xvf phpMyAdmin-5.0.4-english.tar.gz --strip-components=1 -C /var/www/html/phpmyadmin > /dev/null 2>&1
 rm -rf phpMyAdmin-5.0.4-english.tar.gz
 mv ./config.inc.php /var/www/html/phpmyadmin/config.inc.php
 
-mkdir /var/www/html/wordpress
-tar xzf latest.tar.gz -C /var/www/html > /dev/null 2>&1
-rm -rf latest.tar.gz
+# mkdir /var/www/html/wordpress
+# tar xzf latest.tar.gz -C /var/www/html > /dev/null 2>&1
+# rm -rf latest.tar.gz
+
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+
+wp core download --allow-root  --path=/var/www/html/wordpress/
 mv ./wp-config.php /var/www/html/wordpress
+wp core install --url=$SITE_URL --title=$SITE_TITTLE --admin_user=$SITE_ADMIN --admin_password=$SITE_PASSWORD --admin_email=$SITE_ADMIN_EMAIL --path=/var/www/html/wordpress/ --allow-root
+
+# wp plugin install elementor  --activate --allow-root --path=/var/www/html/wordpress
+wp plugin install /mysql_tmp/elementor.3.11.0.zip  --activate --allow-root --path=/var/www/html/wordpress
+wp plugin install /mysql_tmp/elementor-PRO-3.12.3.zip --activate --allow-root --path=/var/www/html/wordpress
+wp theme install /mysql_tmp/hello-elementor.2.9.0.zip  --activate --allow-root --path=/var/www/html/wordpress
+# wp theme install /mysql_tmp/astra.4.6.1.zip --activate --allow-root --path=/var/www/html/wordpress
+# wp plugin install /mysql_tmp/astra-addon.zip --activate --allow-root --path=/var/www/html/wordpress
+# wp plugin install astra-sites --version=3.5.4 --activate --allow-root --path=/var/www/html/wordpress
+
 
 cp ng.conf /etc/nginx/sites-available/default
 
