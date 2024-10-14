@@ -6,7 +6,7 @@
 #    By: tphung <tphung@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/25 14:14:43 by tphung            #+#    #+#              #
-#    Updated: 2024/04/02 16:11:02 by tphung           ###   ########.fr        #
+#    Updated: 2024/10/14 10:42:37 by tphung           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ run:
 	docker run --name 42container \
 	-v mysql-data:/var/lib/mysql \
 	-v $(shell pwd)/mysql:/mysql_tmp \
-	-it -p 80:80 -p 443:443 --rm lemp_image:latest
-	# -it -p 3000:80 -p 3001:443 --rm lemp_image:latest # for school
+	-it -p 3000:80 -p 3001:443 --rm lemp_image:latest # for school
+	# -it -p 80:80 -p 443:443 --rm lemp_image:latest
 
 stop:
 	docker rm -f 42container
