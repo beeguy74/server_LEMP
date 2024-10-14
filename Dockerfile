@@ -1,9 +1,11 @@
 FROM debian:buster
 
+
+# i want to apt-get php version 7.4
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     wget \
     nginx \
-    php-fpm php-mysql php-xml \
+    php-fpm php-curl php-mysql php-xml \
     mariadb-server \
     openssl \
     vim
